@@ -1,1 +1,19 @@
 @import 'tailwindcss';
+
+@plugin '@tailwindcss/typography';
+
+@theme {
+  --color-primary: rgb(255, 197, 61);
+  --color-background: #fffdfa;
+}
+
+/* public\fonts\Miniday.otf */
+
+@font-face {
+  font-family: 'Miniday';
+  src: url('/fonts/Miniday.otf') format('opentype');
+}
+
+.ui-font-miniday {
+  font-family: 'Miniday', sans-serif;
+}

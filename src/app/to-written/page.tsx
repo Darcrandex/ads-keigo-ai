@@ -3,15 +3,15 @@
 import CopyButton from '@/components/CopyButton'
 import TopHeader from '@/components/TopHeader'
 import { toneOptions } from '@/constant/common'
-import { getMailKeigoPrompt } from '@/constant/prompt'
-import { App, Button, Divider, Input, Select } from 'antd'
+import { getSpokenToWrittenPrompt } from '@/constant/prompt'
+import { App, Button, Input, Select } from 'antd'
 import { useMemo, useState } from 'react'
-import ReactDiffViewer from 'react-diff-viewer-continued'
 
-export default function KeigoAIPrototype() {
+export default function ToWritten() {
   const [input, setInput] = useState('')
   const [tone, setTone] = useState('1')
   const [result, setResult] = useState('')
+
   const [isLoading, setIsLoading] = useState(false)
   const { notification } = App.useApp()
 
@@ -21,7 +21,7 @@ export default function KeigoAIPrototype() {
     try {
       setIsLoading(true)
       const toneItem = toneOptions.find((item) => item.value === tone)
-      const text = getMailKeigoPrompt(input, toneItem?.label || '')
+      const text = getSpokenToWrittenPrompt(input, toneItem?.label || '')
 
       const res = await fetch('/api/chat', {
         method: 'POST',
@@ -48,7 +48,6 @@ export default function KeigoAIPrototype() {
     }
   }
 
-  const [showDiff, setShowDiff] = useState(true)
   const outputRows = useMemo(() => 3 + (result.split('\n').length || 1), [result])
 
   return (
@@ -58,7 +57,7 @@ export default function KeigoAIPrototype() {
       <section className="container mx-auto my-6">
         <Input.TextArea
           className="h-64 w-full rounded-xl border p-3"
-          placeholder="ここに文章を入力してください..."
+          placeholder="例です: 来週の会議は13時に始まります。資料を送ります。相手は昌隆電気の鈴木さんです"
           rows={10}
           value={input}
           onChange={(e) => setInput(e.target.value)}
@@ -67,24 +66,15 @@ export default function KeigoAIPrototype() {
         <div className="my-6 flex items-center justify-between">
           <Select options={toneOptions} value={tone} onChange={setTone} className="w-40" />
           <Button loading={isLoading} onClick={handleGenerate}>
-            敬語に変換する
+            メールを作成します
           </Button>
         </div>
 
         {result ? (
           <>
-            <Divider />
-            {showDiff ? (
-              <ReactDiffViewer oldValue={input} newValue={result} />
-            ) : (
-              <Input.TextArea readOnly value={result} rows={outputRows} />
-            )}
+            <Input.TextArea readOnly value={result} rows={outputRows} />
 
-            <div className="my-6 flex items-center justify-between">
-              <Button onClick={() => setShowDiff(!showDiff)}>
-                {showDiff ? '差分を非表示にする' : '差分を表示する'}
-              </Button>
-
+            <div className="my-6">
               <CopyButton text={result} />
             </div>
           </>

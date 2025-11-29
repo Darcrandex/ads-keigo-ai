@@ -1,7 +1,7 @@
 // 智能体的角色定义
 const defaultMessage = {
   role: 'system',
-  content: `You are a seasoned Japanese translator and you have a thorough understanding of the usage of honorifics in Japanese`
+  content: `You are a seasoned Japanese translator and you have a thorough understanding of the usage of honorifics in Japanese`,
 }
 
 export async function POST(req: Request) {
@@ -16,13 +16,13 @@ export async function POST(req: Request) {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${process.env.DEEPSEEK_API_KEY}`,
-          'Content-Type': 'application/json'
+          'Content-Type': 'application/json',
         },
         body: JSON.stringify({
           model: 'deepseek-chat',
           messages: [defaultMessage].concat(Array.isArray(messages) ? messages : []),
-          stream: true
-        })
+          stream: true,
+        }),
       })
 
       const reader = response.body?.getReader()
@@ -65,14 +65,14 @@ export async function POST(req: Request) {
       }
 
       controller.close()
-    }
+    },
   })
 
   return new Response(stream, {
     headers: {
       'Content-Type': 'text/event-stream',
       'Cache-Control': 'no-cache',
-      Connection: 'keep-alive'
-    }
+      Connection: 'keep-alive',
+    },
   })
 }
