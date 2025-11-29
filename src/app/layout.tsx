@@ -36,6 +36,11 @@ export default function RootLayout(props: PropsWithChildren) {
         type="application/ld+json"
         dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
       />
+      <Script
+        async
+        src={`https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=${process.env.GOOGLE_ADSENSE_CLIENT}`}
+        crossOrigin="anonymous"
+      />
 
       <body className="bg-background">
         <AntdProvider>{props.children}</AntdProvider>
