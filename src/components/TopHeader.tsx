@@ -28,7 +28,7 @@ export default function TopHeader() {
         <div className="flex w-1/4">
           <Link href="/" className="flex items-center text-2xl font-bold">
             <Image src="/logo.png" alt="logo" width={40} height={40} />
-            <span className="ui-font-miniday">Keigo-AI</span>
+            <span className="ui-font-miniday">Keigo AI</span>
           </Link>
         </div>
 

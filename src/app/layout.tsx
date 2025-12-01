@@ -1,8 +1,9 @@
 import AntdProvider from '@/components/AntdProvider'
+import NextProgressBar from '@/components/NextProgressBar'
 import '@radix-ui/themes/styles.css'
 import type { Metadata } from 'next'
 import Script from 'next/script'
-import { PropsWithChildren } from 'react'
+import { PropsWithChildren, Suspense } from 'react'
 import './globals.css'
 
 export const metadata: Metadata = {
@@ -43,7 +44,10 @@ export default function RootLayout(props: PropsWithChildren) {
       />
 
       <body className="bg-background">
-        <AntdProvider>{props.children}</AntdProvider>
+        <Suspense fallback={null}>
+          <AntdProvider>{props.children}</AntdProvider>
+          <NextProgressBar />
+        </Suspense>
       </body>
     </html>
   )
